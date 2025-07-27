@@ -26,9 +26,10 @@ services:
       - prometheus
 
   monitor:
-    build: .
+    build:
+      context: .
     container_name: telemetry_monitor
-    restart: always
+    restart: unless-stopped
 
 
 volumes:
