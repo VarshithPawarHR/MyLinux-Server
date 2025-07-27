@@ -25,6 +25,12 @@ services:
     depends_on:
       - prometheus
 
+  monitor:
+    build: .
+    container_name: telemetry_monitor
+    restart: always
+
+
 volumes:
   grafana_data:
 

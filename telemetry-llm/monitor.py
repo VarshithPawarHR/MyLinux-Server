@@ -1,17 +1,20 @@
-
 import requests
 import pandas as pd
 import numpy as np
 from datetime import datetime
 import os
+import time
 
 PROMETHEUS = "http://localhost:9090"
-CPU_QUERY = "100 - (avg by (instance) (irate(node_cpu_seconds_total{mode='idle'}[1m])) * 100)"
+CPU_QUERY = '100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])))'
 CSV_FILE = "cpu_data.csv"
 
 def get_cpu_usage():
     try:
-        res = requests.get(f"{PROMETHEUS}/api/v1/query", params={"query": CPU_QUERY})
+        res = requests.get(
+            f"{PROMETHEUS}/api/v1/query",
+            params={"query": CPU_QUERY}
+        )
         data = res.json()['data']['result']
         if not data:
             return None
@@ -29,7 +32,6 @@ def update_csv(cpu):
         df.to_csv(CSV_FILE, mode='a', header=False, index=False)
     else:
         df.to_csv(CSV_FILE, index=False)
-    
 
 def check_zscore(cpu):
     df = pd.read_csv(CSV_FILE)
@@ -40,12 +42,14 @@ def check_zscore(cpu):
     return abs(z) > 2.0
 
 if __name__ == "__main__":
-    cpu = get_cpu_usage()
-    if cpu is None:
-        print("⚠️No CPU data from Prometheus.")
-        exit()
+    while True:
+        cpu = get_cpu_usage()
+        if cpu is None:
+            print("⚠️  No CPU data from Prometheus.")
+        else:
+            update_csv(cpu)
+            if check_zscore(cpu):
+                print(f"🚨 Outlier detected! CPU usage Z-score high: {cpu}")
 
-    update_csv(cpu)
-
-    if check_zscore(cpu):
-        print(" ")
+        # Sleep for 1 hour (3600 seconds)
+        time.sleep(3600)
