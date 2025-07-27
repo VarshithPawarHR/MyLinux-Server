@@ -5,9 +5,9 @@ from datetime import datetime
 import os
 import time
 
-PROMETHEUS = "http://localhost:9090"
+PROMETHEUS = "http://prometheus:9090"
 CPU_QUERY = '100 - (avg by (instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])))'
-CSV_FILE = "cpu_data.csv"
+CSV_FILE = "cpu_data/cpu_data.csv"
 
 def get_cpu_usage():
     try:
@@ -28,6 +28,7 @@ def update_csv(cpu):
     now = datetime.utcnow().isoformat()
     row = {"timestamp": now, "cpu": cpu}
     df = pd.DataFrame([row])
+    os.makedirs(os.path.dirname(CSV_FILE), exist_ok=True)
     if os.path.exists(CSV_FILE):
         df.to_csv(CSV_FILE, mode='a', header=False, index=False)
     else:
@@ -50,6 +51,4 @@ if __name__ == "__main__":
             update_csv(cpu)
             if check_zscore(cpu):
                 print(f"🚨 Outlier detected! CPU usage Z-score high: {cpu}")
-
-        # Sleep for 1 hour (3600 seconds)
-        time.sleep(3600)
+        time.sleep(30)

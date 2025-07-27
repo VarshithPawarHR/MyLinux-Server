@@ -1,5 +1,66 @@
-venv/
+# Environment variables (never commit secrets!)
+.env
+.env.local
+.env.*.local
+
+# Python
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+PIPENEV_FILE
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Project specific
+*.pdf
+*.png
+*.jpg
+*.jpeg
 cpu_data.csv
+system_metrics_report.png
+weekly_system_metrics_report_*.pdf
+
+# Logs
+*.log
+logs/
+
+# Docker
+.dockerignore
 

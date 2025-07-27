@@ -30,6 +30,29 @@ services:
       context: .
     container_name: telemetry_monitor
     restart: unless-stopped
+    depends_on:
+      - prometheus
+    volumes:
+       - ./cpu_data:/app/cpu_data
+    environment:
+      GEMINI_API_KEY: "${GEMINI_API_KEY}"
+      EMAIL_ADDRESS: "${EMAIL_ADDRESS}"
+      EMAIL_PASSWORD: "${EMAIL_PASSWORD}"
+      EMAIL_RECIPIENT: "${EMAIL_RECIPIENT}"
+      LITELLM_PROVIDER: "${LITELLM_PROVIDER}"
+  report:
+    build:
+      context: .
+    container_name: telemetry_report
+    depends_on:
+      - prometheus
+    environment:
+      - GEMINI_API_KEY="${GEMINI_API_KEY}"
+      - EMAIL_ADDRESS="${EMAIL_ADDRESS}"
+      - EMAIL_PASSWORD="${EMAIL_PASSWORD}"
+      - EMAIL_RECIPIENT="${EMAIL_RECIPIENT}"
+      - LITELLM_PROVIDER="${LITELLM_PROVIDER}"
+    command: ["python", "system_report.py"]
 
 
 volumes:

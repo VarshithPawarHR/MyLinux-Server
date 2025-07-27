@@ -9,3 +9,10 @@ requests==2.32.4
 six==1.17.0
 tzdata==2025.2
 urllib3==2.5.0
+fpdf2>=2.7.8
+crewai>=0.10.0
+google-generativeai>=0.3.2
+matplotlib>=3.8.0
+python-dotenv>=1.0.0
+langchain-google-genai>=0.0.7
+langchain>=0.1.0
