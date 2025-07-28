@@ -1,0 +1,7 @@
+# Python virtual env
+venv/
+
+# Secrets
+*.env
+*.htpasswd
+/logs

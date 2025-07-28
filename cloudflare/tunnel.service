@@ -1,0 +1,12 @@
+[Unit]
+Description=Free Cloudflare Tunnel (trycloudflare.com)
+After=network.target
+
+[Service]
+ExecStart=/home/pawar/Homelab/cloudflare/tunnel.sh
+Restart=always
+User=pawar
+WorkingDirectory=/home/pawar/Homelab/cloudflare
+
+[Install]
+WantedBy=multi-user.target
