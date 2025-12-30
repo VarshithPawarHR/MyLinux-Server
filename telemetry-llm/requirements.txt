@@ -8,7 +8,7 @@ pytz==2025.2
 requests==2.32.4
 six==1.17.0
 tzdata==2025.2
-urllib3==2.5.0
+urllib3==2.6.0
 fpdf2>=2.7.8
 crewai>=0.10.0
 google-generativeai>=0.3.2
